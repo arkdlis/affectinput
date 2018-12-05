@@ -57,6 +57,7 @@ function appendSvgNode(container, item) {
       $svg.attr('viewBox', '0 0 ' + $svg.attr('height') + ' ' + $svg.attr('width'))
     }
     itemDiv.append($svg);
+    itemDiv.append($(`<div class="six-emotions-label">${item.value}</div>`));
     container.append(itemDiv);
   }, 'xml');
 }
