@@ -1,0 +1,41 @@
+.six-emotions select {
+  max-height: 0;
+  visibility: hidden;
+}
+
+.six-emotions-container.active,
+.six-emotions-container:focus {
+  outline: none;
+}
+
+.six-emotions-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.six-emotions.center .six-emotions-container {
+  justify-content: center;
+  align-items: center;
+}
+.six-emotions.vertical .six-emotions-container {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.six-emotions-item {
+  width: 100px;
+  height: 100px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.six-emotions-item svg {
+  transition: fill 0.3s;
+}
+
+.six-emotions-item:not(.highlight):not(:hover) svg {
+  fill: rgb(192, 192, 192) !important;
+}
+.six-emotions-item:not(.highlight) {
+  opacity: 0.6;
+}
