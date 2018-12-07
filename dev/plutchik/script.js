@@ -183,7 +183,7 @@ new p5((p)=>plutchikWheel.sketch(p), window.document.getElementById('plutchik-wh
 
 var slider = document.getElementById('slider');
 noUiSlider.create(slider, {
-  start: [3], 
+  start: [2], 
   step: 1,
   range: {
       'min': [1],
