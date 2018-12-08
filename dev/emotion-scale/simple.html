@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Emotion Scale</title>
+
+  <link rel="stylesheet" type="text/css" href="emotion-scale.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="emotion-scale.js"></script>
+</head>
+<body>
+
+  <div id="emotion-scale" class="emotion-scale center"></div>
+
+  <script>
+    let emotionScale = new EmotionScale();
+
+    window.addEventListener('load', function () {
+      emotionScale.init(document.getElementById('emotion-scale'));
+      emotionScale.onChange((value) => {
+        window.alert(value);
+      });
+    });
+  </script>
+
+</body>
+</html>

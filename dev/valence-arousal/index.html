@@ -2,18 +2,29 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <title>Valence-Arousal</title>
 
-  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" type="text/css" href="valence-arousal.css">
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.1/p5.min.js"></script>
-  <script src="script.js"></script>
+  <script src="valence-arousal.js"></script>
 </head>
 <body>
 
   <div id='valence-arousal'></div>
+
+  <script>
+    // initialize widget
+    let valenceArousal = new ValenceArousal();
+
+    valenceArousal.onChange((value) => {
+      window.alert(`x: ${value.x}, y: ${value.y}`);
+    });
+
+    valenceArousal.init(window.document.getElementById('valence-arousal'));
+  </script>
   
 </body>
 </html>
