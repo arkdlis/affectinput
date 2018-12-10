@@ -56,8 +56,8 @@ class ValenceArousal {
     }
 
     function mouseInVASpace(mouseX, mouseY) {
-      if (mouseX >= padding.x && mouseX <= canvasWidth - padding.x && 
-          mouseY >= padding.y && mouseY <= canvasWidth - padding.y){
+      if (mouseX >= padding.x + 20 && mouseX <= canvasWidth - padding.x - 20 && 
+          mouseY >= padding.y + 20 && mouseY <= canvasWidth - padding.y - 20){
         return true;
       }
       return false;
@@ -104,7 +104,10 @@ class ValenceArousal {
 
     p.mouseReleased = function() {
       if (mouseInVASpace(p.mouseX, p.mouseY) && onChangeHandle) {
-          onChangeHandle(position);
+          onChangeHandle({
+            x: Math.floor((position.x - canvasWidth/2)/(canvasWidth - padding.x*2 - 40)*200),
+            y: Math.floor((canvasWidth/2  -position.y)/(canvasWidth - padding.x*2 - 40)*200),
+          });
       }
     }
 
