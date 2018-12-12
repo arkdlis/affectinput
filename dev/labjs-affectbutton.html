@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Affect Button | Lab.js</title>
+
+  <!-- lab.js and libraries -->
+  <script src="vendors/labjs/lab.min.js"></script>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,700" rel="stylesheet">
+
+  <!-- JQuery - Use CDN versions of 3rd party resources to avoid clutter in our repository -->
+  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+  <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+  <!-- Include the affectbutton widget -->
+  <script src="vendors/jquery.ui.affectbutton/js/jquery.ui.affectbutton.min.js"></script>
+
+  <!-- Experiment CSS -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- actual experiment code -->
+  <script defer src="labjs-affectbutton.js"></script>
+</head>
+<body>
+
+  <div class="container-fluid d-flex align-items-start flex-column" style="width:100vw; height:100vh;">
+    <main class="row mb-auto mt-auto p-2" style="width:100vw">
+      <div data-labjs-section="main" class="mx-auto">
+        <img src="assets/loading.svg" alt="loading icon" style="padding: 1rem"><br>
+        <p>
+          <strong>Preparing experiment</strong><br>
+          <span class="text-muted">please wait a moment</span>
+        </p>
+      </div>
+    </main>
+    <footer class="row p-2 text-center" style="width:100vw">
+      <small class="text-muted mx-auto">Arkadiusz Lis, Akademia Górniczo-Hutnicza w Krakowie</small>
+    </footer>
+  </div>
+</body>
+</html>
