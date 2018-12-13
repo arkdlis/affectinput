@@ -161,7 +161,7 @@ function movingWeightedAverage(array) {
   return nominator/denominator;
 }
 
-function handleMotion(event) {
+function handleMotion(event, emotionScale) {
   var acceleration = event.accelerationIncludingGravity;
   var tresholds = [-10, -1, 2, 5, 7, 10];
   // TODO: different api handlers

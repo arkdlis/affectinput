@@ -82,11 +82,3 @@ class OppositeEmotions {
   }
 }
 
-window.addEventListener('load', function () {
-  let root = document.getElementById('opposite-emotions');
-  let oppositeEmotions = new OppositeEmotions();
-  oppositeEmotions.onChange((result) => {
-    window.alert(`change of ${result.id}: ${result.value}`);
-  })
-  oppositeEmotions.init(root);
-});

@@ -1,6 +1,3 @@
-// Define the sequence of components
-// that define the experiment
-
 const random = new lab.util.Random();
 
 const images = random.shuffle([
@@ -26,7 +23,7 @@ const images = random.shuffle([
   { imageUrl: 'img/Sunset 4.jpg', value: 20 },
   { imageUrl: 'img/Thunderstorm 9.jpg', value: 21 },
   { imageUrl: 'img/War 1.jpg', value: 22 },
-]);
+]).slice(0, 8);
 
 const trial = new lab.flow.Sequence({
   content: [
@@ -46,13 +43,14 @@ const trial = new lab.flow.Sequence({
       '    <button id="submit" class="btn btn-light m-2 mx-auto">Save</button>' + 
       '  </div>',
       messageHandlers: {
-        'run': () => {
+        'run': function() {
           var canvas = $( '#affectbutton' );    
           canvas.affectbutton({
             style: affectButtonStyle,
           });
-          canvas.on('affectchanged', function( event, affect ) {
+          canvas.on('affectchanged', ( event, affect ) => {
             experiment.datastore.set({
+              'imageUrl': this.parent.options.parameters.imageUrl,
               'pleasure': affect.pleasure,
               'arousal': affect.arousal,
               'dominance': affect.dominance
@@ -74,7 +72,7 @@ const trial = new lab.flow.Sequence({
 var experiment = new lab.flow.Sequence({
   content: [
     new lab.html.Screen({
-      content: 'Hello!',
+      content: "Let's start!",
       timeout: 1000,
     }),
     new lab.html.Screen({

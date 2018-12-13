@@ -369,7 +369,6 @@ class EmotionWheel {
         this.hovered = false;
         this.parent = null;
         this.childrenPies = [];
-        console.log(this.id, this.label, this.startAngle);
       }
       setScale(scale) {
         this.scale = scale;

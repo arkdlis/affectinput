@@ -36,37 +36,50 @@ const trial = new lab.flow.Sequence({
       timeout: 2000,
     }),
     new lab.html.Screen({
-      content: '<div id="form" class="form-group d-flex">' +
-        '  <select class="form-control d-inline m-2" name="emotion" id="emotion" required>' +
-        '    <option value="" disabled selected hidden>How do you feel?</option>' +
-        '    <option value="happy">Happy</option>' +
-        '    <option value="suprise">Suprise</option>' +
-        '    <option value="fear">Fear</option>' +
-        '    <option value="anger">Anger</option>' +
-        '    <option value="disgust">Disgust</option>' +
-        '    <option value="sad">Sad</option>' +
-        '  </select>' +
-        '  <button id="submit" form="form" class="btn btn-light m-2">Save</button>' +
-        '</div>',
-        messageHandlers: {
-          'run': function() {
-            var button = document.getElementById('submit');
-            button.addEventListener('click', ( event ) => {
-              var select = document.getElementById('emotion');
-              experiment.datastore.set({
-                'imageUrl': this.parent.options.parameters.imageUrl,
-                'emotion': select.value,
-              });
+      content: '<div id="emotion-input"></div>' +
+               '<div id="slider" class="mx-auto" style="max-width: 200px; margin: 25px 50px"></div>',
+      messageHandlers: {
+        'run': function() {
+          // initialize widget
+          let plutchikWheel = new PlutchikWheel(2);
+
+          plutchikWheel.onClick((result) => {
+            experiment.datastore.set({
+              'imageUrl': this.parent.options.parameters.imageUrl,
+              'emotion': result,
             });
-          },
-          'end': () => {
-            experiment.datastore.commit();
-            experiment.datastore.show();
-          }
+            this.end();
+          });
+
+          plutchikWheel.init(window.document.getElementById('emotion-input'));
+
+          // initializing slider to control widget
+          let slider = document.getElementById('slider');
+          noUiSlider.create(slider, {
+            start: [2], 
+            step: 1,
+            range: {
+                'min': [1],
+                'max': [3]
+            },
+            pips: {
+              mode: 'positions',
+              values: [0, 50, 100],
+              density: 50
+            }
+          });
+          slider.noUiSlider.on('change', function (values) {
+            plutchikWheel.setValue(values[0]);
+          });
         },
-        responses: {
-          'click button#submit': 'submit',
+        'end': () => {
+          experiment.datastore.commit();
+          experiment.datastore.show();
         }
+      },
+      responses: {
+        'click button#submit': 'submit',
+      }
     })
   ]
 });

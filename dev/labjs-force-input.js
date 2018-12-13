@@ -36,26 +36,27 @@ const trial = new lab.flow.Sequence({
       timeout: 2000,
     }),
     new lab.html.Screen({
-      content: '<div id="form" class="form-group d-flex">' +
-        '  <select class="form-control d-inline m-2" name="emotion" id="emotion" required>' +
-        '    <option value="" disabled selected hidden>How do you feel?</option>' +
-        '    <option value="happy">Happy</option>' +
-        '    <option value="suprise">Suprise</option>' +
-        '    <option value="fear">Fear</option>' +
-        '    <option value="anger">Anger</option>' +
-        '    <option value="disgust">Disgust</option>' +
-        '    <option value="sad">Sad</option>' +
-        '  </select>' +
-        '  <button id="submit" form="form" class="btn btn-light m-2">Save</button>' +
-        '</div>',
+      content: '<div id="emotion-input"></div>' + 
+               '<div class="text-center"><button class="btn btn-submit" id="submit">NEXT</button></div>',
         messageHandlers: {
           'run': function() {
-            var button = document.getElementById('submit');
+            let button = window.document.getElementById('submit');
+
+            // initialize widget
+            let forceInput = new ForceInput();
+            let arousalValue = 0;
+
+            forceInput.onChange((result) => {
+              arousalValue = result;
+            });
+
+            forceInput.init(window.document.getElementById('emotion-input'));
+
+            // attach handler to proceed button
             button.addEventListener('click', ( event ) => {
-              var select = document.getElementById('emotion');
               experiment.datastore.set({
                 'imageUrl': this.parent.options.parameters.imageUrl,
-                'emotion': select.value,
+                'arousal': arousalValue,
               });
             });
           },

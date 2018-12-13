@@ -36,37 +36,30 @@ const trial = new lab.flow.Sequence({
       timeout: 2000,
     }),
     new lab.html.Screen({
-      content: '<div id="form" class="form-group d-flex">' +
-        '  <select class="form-control d-inline m-2" name="emotion" id="emotion" required>' +
-        '    <option value="" disabled selected hidden>How do you feel?</option>' +
-        '    <option value="happy">Happy</option>' +
-        '    <option value="suprise">Suprise</option>' +
-        '    <option value="fear">Fear</option>' +
-        '    <option value="anger">Anger</option>' +
-        '    <option value="disgust">Disgust</option>' +
-        '    <option value="sad">Sad</option>' +
-        '  </select>' +
-        '  <button id="submit" form="form" class="btn btn-light m-2">Save</button>' +
-        '</div>',
-        messageHandlers: {
-          'run': function() {
-            var button = document.getElementById('submit');
-            button.addEventListener('click', ( event ) => {
-              var select = document.getElementById('emotion');
-              experiment.datastore.set({
-                'imageUrl': this.parent.options.parameters.imageUrl,
-                'emotion': select.value,
-              });
+      content: '<div id="emotion-input"></div>',
+      messageHandlers: {
+        'run': function() {
+          // initialize widget
+          let emotionWheel = new EmotionWheel();
+
+          emotionWheel.onClick((result) => {
+            experiment.datastore.set({
+              'imageUrl': this.parent.options.parameters.imageUrl,
+              'emotion': result,
             });
-          },
-          'end': () => {
-            experiment.datastore.commit();
-            experiment.datastore.show();
-          }
+            this.end();
+          });
+
+          emotionWheel.init(window.document.getElementById('emotion-input'));
         },
-        responses: {
-          'click button#submit': 'submit',
+        'end': () => {
+          experiment.datastore.commit();
+          experiment.datastore.show();
         }
+      },
+      responses: {
+        'click button#submit': 'submit',
+      }
     })
   ]
 });

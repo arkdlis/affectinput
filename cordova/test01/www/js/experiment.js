@@ -74,7 +74,7 @@ const trial = new lab.flow.Sequence({
 var experiment = new lab.flow.Sequence({
   content: [
     new lab.html.Screen({
-      content: 'Hello!',
+      content: "Let's start!",
       timeout: 1000,
     }),
     new lab.html.Screen({

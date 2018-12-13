@@ -23,7 +23,9 @@
       emotionScale.onClick((value) => {
         window.alert(value);
       });
-      window.addEventListener("devicemotion", handleMotion, true);
+      window.addEventListener("devicemotion", (event) => { 
+        handleMotion(event, emotionScale);
+      }, true);
     });
   </script>
 

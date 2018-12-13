@@ -14,6 +14,14 @@
   flex-direction: row;
 }
 
+/* change of layout for labjs demo */
+.labjs-absolute .six-emotions-container {
+  position: absolute;
+  top: 30%;
+  left: 0;
+  right: 0;
+}
+
 .six-emotions.center .six-emotions-container {
   justify-content: center;
   align-items: center;
