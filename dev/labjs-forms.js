@@ -100,7 +100,7 @@ var experiment = new lab.flow.Sequence({
 experiment.datastore = new lab.data.Store();
 
 experiment.on('end', () => {
-  closeFullscreen();
+  // closeFullscreen();
   experiment.datastore.download();
 });
 

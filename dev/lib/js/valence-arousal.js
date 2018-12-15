@@ -3,9 +3,6 @@ class ValenceArousal {
     var onChangeHandle = this.onChangeHandle;
 
     var subjectives = [
-      'Excited',
-      'Delighted',
-      'Happy',
       'Content',
       'Relaxed',
       'Calm',
@@ -14,7 +11,10 @@ class ValenceArousal {
       'Depressed',
       'Frustrated',
       'Angry',
-      'Tense'
+      'Tense',
+      'Excited',
+      'Delighted',
+      'Happy',
     ];
 
     var smallScreen = false;
@@ -103,10 +103,10 @@ class ValenceArousal {
     }
 
     p.mouseReleased = function() {
-      if (mouseInVASpace(p.mouseX, p.mouseY) && onChangeHandle) {
+      if (onChangeHandle) {
           onChangeHandle({
-            x: Math.floor((position.x - canvasWidth/2)/(canvasWidth - padding.x*2 - 40)*200),
-            y: Math.floor((canvasWidth/2  -position.y)/(canvasWidth - padding.x*2 - 40)*200),
+            x: Math.floor((position.x - canvasWidth/2)/(canvasWidth - padding.x*2 - 40)*200)/100,
+            y: Math.floor((canvasWidth/2  -position.y)/(canvasWidth - padding.x*2 - 40)*200)/100,
           });
       }
     }

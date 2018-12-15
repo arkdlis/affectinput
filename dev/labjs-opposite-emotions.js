@@ -36,19 +36,30 @@ const trial = new lab.flow.Sequence({
       timeout: 2000,
     }),
     new lab.html.Screen({
-      content: '<div id="emotion-input" class="container"></div>',
+      content: '<div id="emotion-input" class="container"></div>' + 
+               '<div class="text-center"><button class="btn btn-submit" id="submit">NEXT</button></div>',
       messageHandlers: {
         'run': function() {
           // initialize widget
           let oppositeEmotions = new OppositeEmotions();
+          let state = {
+            'sad-happy': '0',
+            'fear-anger': '0',
+            'disgust-trust': '0',
+            'anticipation-suprise': '0'
+          };
+
+          experiment.datastore.set({
+            'imageUrl': this.parent.options.parameters.imageUrl,
+            ...state
+          });
 
           oppositeEmotions.onChange((result) => {
+            state[result.id] = result.value[0];
             experiment.datastore.set({
               'imageUrl': this.parent.options.parameters.imageUrl,
-              'emotion': result.id,
-              'value': result.value,
+              ...state
             });
-            this.end();
           });
 
           oppositeEmotions.init(window.document.getElementById('emotion-input'));
@@ -94,7 +105,7 @@ var experiment = new lab.flow.Sequence({
 experiment.datastore = new lab.data.Store();
 
 experiment.on('end', () => {
-  closeFullscreen();
+  // closeFullscreen();
   experiment.datastore.download();
 });
 

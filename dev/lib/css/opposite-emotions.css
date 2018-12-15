@@ -1,11 +1,11 @@
 .container {
   width: 400px;
   max-width: 90vw;
-  margin: 2em auto;
+  margin: 0.5em auto;
 }
 
 .group {
-  margin: 0 0 4em;
+  margin: 0 0 3.5em;
 }
 
 .label {
@@ -14,4 +14,8 @@
 
 .label .label-right {
   float: right;
+}
+
+.noUi-pips-horizontal {
+  height: auto;
 }
