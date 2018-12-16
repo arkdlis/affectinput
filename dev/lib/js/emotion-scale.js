@@ -2,7 +2,7 @@ NodeList.prototype.forEach = function (callback) {
   Array.prototype.forEach.call(this, callback);
 }
 
-var config = {
+var emotionScaleDefaultConfig = {
   items: [
     {
       value: "verybad",
@@ -33,6 +33,10 @@ var config = {
 };
 
 class EmotionScale {
+  constructor(config) {
+    this.config = config || emotionScaleDefaultConfig;
+  }
+
   create(root) {
     var select = $('<select name="emotion-scale"></select>');
     for (var i =0; i < 5; i++) {
@@ -41,8 +45,8 @@ class EmotionScale {
     root.append(select);
 
     var container = $("<div>", { class: "emotion-scale-container" });
-    for (var j = 0; j < config.items.length; j++) {
-      var item = config.items[j];
+    for (var j = 0; j < this.config.items.length; j++) {
+      var item = this.config.items[j];
       this.appendSvgNode(container, item);
     }
     root.append(container);

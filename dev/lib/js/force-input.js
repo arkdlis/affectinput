@@ -116,7 +116,7 @@ class ForceInput {
         acceleration = -springFactor*(position - springPadding);
         velocity += acceleration - frictionFactor*velocity;
         if (position < 0) {
-          position = 0;
+          position = 1;
           velocity = -velocity;
         }
         if (Math.abs(velocity) < 0.05 && Math.abs(position - springPadding) < 1) {

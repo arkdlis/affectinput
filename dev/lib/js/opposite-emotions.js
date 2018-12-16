@@ -1,4 +1,4 @@
-var slidersData = [
+var oppositeEmotionsDefaultConfig = [
   {
     id: 'sad-happy',
     labelLeft: "Sadness",
@@ -22,11 +22,14 @@ var slidersData = [
 ];
 
 class OppositeEmotions {
+  constructor(config) {
+    this.config = config || oppositeEmotionsDefaultConfig;
+  }
   
   create(rootNode) {
     let root = $(rootNode);
     this.sliders = [];
-    slidersData.forEach((data) => {
+    this.config.forEach((data) => {
       let group = $('<div class="group">');
       let label = $('<div class="label">');
       let labelLeft = $('<span class="label-left">');

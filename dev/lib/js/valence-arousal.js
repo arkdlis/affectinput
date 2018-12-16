@@ -1,21 +1,26 @@
+var valenceArousalDefaultConfig = [
+  'Content',
+  'Relaxed',
+  'Calm',
+  'Tired',
+  'Bored',
+  'Depressed',
+  'Frustrated',
+  'Angry',
+  'Tense',
+  'Excited',
+  'Delighted',
+  'Happy',
+];
+
 class ValenceArousal {
+  constructor(config) {
+    this.config = config || valenceArousalDefaultConfig;
+  }
   sketch(p) {
     var onChangeHandle = this.onChangeHandle;
 
-    var subjectives = [
-      'Content',
-      'Relaxed',
-      'Calm',
-      'Tired',
-      'Bored',
-      'Depressed',
-      'Frustrated',
-      'Angry',
-      'Tense',
-      'Excited',
-      'Delighted',
-      'Happy',
-    ];
+    var subjectives = this.config;
 
     var smallScreen = false;
 

@@ -36,8 +36,9 @@ const trial = new lab.flow.Sequence({
       timeout: 2000,
     }),
     new lab.html.Screen({
-      content: '<div id="emotion-input"></div>' + 
-               '<div class="text-center"><button class="btn btn-submit" id="submit">NEXT</button></div>',
+      content: '<h6>Jak mocny wpływ ma na ciebie ten obrazek?</h6>' +
+               '<div id="emotion-input"></div>' + 
+               '<div class="text-center"><button class="btn btn-submit" id="submit">Dalej</button></div>',
         messageHandlers: {
           'run': function() {
             let button = window.document.getElementById('submit');
@@ -75,11 +76,19 @@ const trial = new lab.flow.Sequence({
 var experiment = new lab.flow.Sequence({
   content: [
     new lab.html.Screen({
-      content: "Let's start!",
+      content: "Cześć!",
       timeout: 1000,
     }),
     new lab.html.Screen({
-      content: 'Click to proceed',
+      content: 'Kliknij, by kontynuować',
+      responses: {
+        'click': 'A mouse click was recorded',
+      }
+    }),
+    new lab.html.Screen({
+      content: '<p>Zobaczysz teraz kilka różnych obrazków jeden po drugim.</p>' +
+               '<p>Po każdym z nich zostaniesz poproszony o określenie swojej emocji.</p>' +
+               '<br><p class="text-center">Kliknij, by kontynuować.</p>',
       responses: {
         'click': 'A mouse click was recorded',
       }
@@ -89,7 +98,7 @@ var experiment = new lab.flow.Sequence({
       templateParameters: images
     }),
     new lab.html.Screen({
-      content: 'Click to finish',
+      content: 'Kliknij, by zakończyć i zapisać wyniki',
       responses: {
         'click': 'A mouse click was recorded',
       }

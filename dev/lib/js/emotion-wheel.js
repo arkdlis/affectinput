@@ -1,4 +1,4 @@
-var data = [
+var emotionWheelDefaultConfig = [
   {
     name: "anger",
     color: '#F4A4A5',
@@ -290,10 +290,14 @@ var data = [
 ];
 
 class EmotionWheel {
+  constructor(config) {
+    this.config = config || emotionWheelDefaultConfig;
+  }
   onClick(onclickFun) {
     this.onClickHandler = onclickFun;
   }
   sketch(p) {
+    var data = this.config;
     var onClickHandler = this.onClickHandler;    
     var smallScreen = false;
     var canvasWidth = 300;
@@ -301,7 +305,7 @@ class EmotionWheel {
       smallScreen = true;
       canvasWidth = window.innerWidth;
     }
-    var canvasHeight = canvasWidth*2;
+    var canvasHeight = canvasWidth;
 
     var padding = {
       x: 10,

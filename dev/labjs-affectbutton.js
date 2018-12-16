@@ -40,7 +40,7 @@ const trial = new lab.flow.Sequence({
       '  <canvas id="affectbutton"></canvas>' + 
       '  <br><br>' + 
       '  <div class="row">' + 
-      '    <button id="submit" class="btn btn-light m-2 mx-auto">Save</button>' + 
+      '    <button id="submit" class="btn btn-light m-2 mx-auto">Dalej</button>' + 
       '  </div>',
       messageHandlers: {
         'run': function() {
@@ -72,13 +72,21 @@ const trial = new lab.flow.Sequence({
 var experiment = new lab.flow.Sequence({
   content: [
     new lab.html.Screen({
-      content: "Let's start!",
+      content: "Cześć!",
       timeout: 1000,
     }),
     new lab.html.Screen({
-      content: 'Click to proceed',
+      content: 'Kliknij, by kontynuować',
       responses: {
-        'click': () => 'A mouse click was recorded',
+        'click': 'A mouse click was recorded',
+      }
+    }),
+    new lab.html.Screen({
+      content: '<p>Zobaczysz teraz kilka różnych obrazków jeden po drugim.</p>' +
+               '<p>Po każdym z nich zostaniesz poproszony o określenie swojej emocji.</p>' +
+               '<br><p class="text-center">Kliknij, by kontynuować.</p>',
+      responses: {
+        'click': 'A mouse click was recorded',
       }
     }),
     new lab.flow.Loop({
@@ -86,13 +94,13 @@ var experiment = new lab.flow.Sequence({
       templateParameters: images
     }),
     new lab.html.Screen({
-      content: 'Click to finish',
+      content: 'Kliknij, by zakończyć i zapisać wyniki',
       responses: {
         'click': 'A mouse click was recorded',
       }
     }),
   ],
-});
+})
 
 var elem = document.documentElement;
 

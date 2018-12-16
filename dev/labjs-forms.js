@@ -36,17 +36,18 @@ const trial = new lab.flow.Sequence({
       timeout: 2000,
     }),
     new lab.html.Screen({
-      content: '<div id="form" class="form-group d-flex">' +
+      content: '<div>Jaką emocję odczuwasz?</div>' +
+        '<div id="form" class="form-group d-flex">' +
         '  <select class="form-control d-inline m-2" name="emotion" id="emotion" required>' +
-        '    <option value="" disabled selected hidden>How do you feel?</option>' +
-        '    <option value="happy">Happy</option>' +
-        '    <option value="suprise">Suprise</option>' +
-        '    <option value="fear">Fear</option>' +
-        '    <option value="anger">Anger</option>' +
-        '    <option value="disgust">Disgust</option>' +
-        '    <option value="sad">Sad</option>' +
+        '    <option value="" disabled selected hidden>Wybierz:</option>' +
+        '    <option value="happy">Radość</option>' +
+        '    <option value="suprise">Zaskoczenie</option>' +
+        '    <option value="fear">Strach</option>' +
+        '    <option value="anger">Złość</option>' +
+        '    <option value="disgust">Wstręt</option>' +
+        '    <option value="sad">Smutek</option>' +
         '  </select>' +
-        '  <button id="submit" form="form" class="btn btn-light m-2">Save</button>' +
+        '  <button id="submit" form="form" class="btn btn-light m-2">Dalej</button>' +
         '</div>',
         messageHandlers: {
           'run': function() {
@@ -74,11 +75,19 @@ const trial = new lab.flow.Sequence({
 var experiment = new lab.flow.Sequence({
   content: [
     new lab.html.Screen({
-      content: "Let's start!",
+      content: "Cześć!",
       timeout: 1000,
     }),
     new lab.html.Screen({
-      content: 'Click to proceed',
+      content: 'Kliknij, by kontynuować',
+      responses: {
+        'click': 'A mouse click was recorded',
+      }
+    }),
+    new lab.html.Screen({
+      content: '<p>Zobaczysz teraz kilka różnych obrazków jeden po drugim.</p>' +
+               '<p>Po każdym z nich zostaniesz poproszony o określenie swojej emocji.</p>' +
+               '<br><p class="text-center">Kliknij, by kontynuować.</p>',
       responses: {
         'click': 'A mouse click was recorded',
       }
@@ -88,7 +97,7 @@ var experiment = new lab.flow.Sequence({
       templateParameters: images
     }),
     new lab.html.Screen({
-      content: 'Click to finish',
+      content: 'Kliknij, by zakończyć i zapisać wyniki',
       responses: {
         'click': 'A mouse click was recorded',
       }

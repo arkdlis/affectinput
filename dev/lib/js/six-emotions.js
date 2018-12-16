@@ -2,8 +2,7 @@ NodeList.prototype.forEach = function (callback) {
   Array.prototype.forEach.call(this, callback);
 }
 
-  
-var config = {
+var sixEmotionsDefaultConfig = {
   items: [
     {
       value: "happy",
@@ -33,6 +32,9 @@ var config = {
 };
 
 class SixEmotions {
+  constructor(config) {
+    this.config = config || sixEmotionsDefaultConfig;
+  }
 
   create(root) {
     var select = $('<select name="six-emotions"></select>');
@@ -42,8 +44,8 @@ class SixEmotions {
     root.append(select);
 
     var container = $("<div>", { class: "six-emotions-container" });
-    for (var j = 0; j < config.items.length; j++) {
-      var item = config.items[j];
+    for (var j = 0; j < this.config.items.length; j++) {
+      var item = this.config.items[j];
       this.appendSvgNode(container, item);
     }
     root.append(container);
@@ -82,7 +84,7 @@ class SixEmotions {
     nativeWidget.selectedIndex = index;
     this.highlightItem(select, optionList[index]);
     if (this.onChangeHandle) {
-      this.onChangeHandle(config.items[index].value);
+      this.onChangeHandle(this.config.items[index].value);
     }
   };
 
