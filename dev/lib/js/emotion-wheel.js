@@ -313,7 +313,11 @@ class EmotionWheel {
     }
 
     var diameter = canvasWidth - padding.x*2;
-    
+
+    var animationTimer = 0;
+    const animationLength = 20;
+    var pieToAnimate = undefined;
+
     var step = 0;
     var hoverIndex = -1;
     var selectIndex = [0, 0, 0];
@@ -337,6 +341,13 @@ class EmotionWheel {
       p.ellipseMode(p.CENTER);
     }
 
+    function mouseInRect(mouseX, mouseY, x, y, width, height) {
+      if (mouseX > x && mouseX < x+width && mouseY > y && mouseY < y+height) {
+        return true;
+      }
+      return false;
+    }
+
     function mouseInCircle(mouseX, mouseY, x, y, radius) {
       let dpx = Math.pow(mouseX - x, 2);
       let dpy = Math.pow(mouseY - y, 2);
@@ -358,6 +369,17 @@ class EmotionWheel {
       return false;
     }
     
+    function drawLabels(text, x, y, rotation, textSize, horizAlign = p.CENTER, vertAlign = p.CENTER ) {
+      p.textSize(textSize);
+      p.textAlign(horizAlign, vertAlign);
+      p.translate(x, y);
+      p.rotate(rotation);
+      p.fill(p.color('#000'));
+      p.noStroke();
+      p.text(text, 0, 0);
+      p.resetMatrix();
+    }
+    
     class Pie {
       constructor(id, label, startAngle, endAngle, x, y, radius, color, children) {
         this.id = id;
@@ -374,9 +396,6 @@ class EmotionWheel {
         this.parent = null;
         this.childrenPies = [];
       }
-      setScale(scale) {
-        this.scale = scale;
-      }
       setPosition(x, y) {
         this.x = x;
         this.y = y;
@@ -386,12 +405,14 @@ class EmotionWheel {
                        mouseInAngle(p.mouseX, p.mouseY, this.x, this.y, this.startAngle, this.endAngle);
         return this.hovered;
       }
-      draw(p) {
-        // if (step>0) {
-        //   this.scale = 2;
-        // } else {
-        //   this.scale = 1;
-        // }
+      draw(p, scale) {
+        if (scale) {
+          this.scale = scale;
+        } else {
+          this.scale = 1;
+        }
+        let tx = 0;
+        let ty = 0;
         if (this.hovered) {
           p.cursor(p.HAND);
         }
@@ -401,23 +422,23 @@ class EmotionWheel {
         } else {
           p.noStroke();
         }
-        let radius = this.radius*this.scale + (this.hovered ? 10 : 0);
+        let radius = (step>1 ? this.radius : this.radius*(1+(this.scale-1)/2)) + (this.hovered ? 10 : 0);
         let textPlacementAngle = (this.startAngle + this.endAngle)/2;
-        let x = this.x - Math.cos(textPlacementAngle)*this.radius*(this.scale-1)/2;
-        let y = this.y - Math.sin(textPlacementAngle)*this.radius*(this.scale-1)/2;
-        p.arc(x, y, radius, radius, this.startAngle, this.endAngle);
-    
+        let x = this.x - (step>1 ? 0 : Math.cos(textPlacementAngle)*this.radius*(this.scale-1)/2);
+        let y = this.y - (step>1 ? 0 : Math.sin(textPlacementAngle)*this.radius*(this.scale-1)/2);
+        let expandAngle = p.PI/16*(this.scale-1);
+        p.arc(x, y, radius, radius, this.startAngle-expandAngle, this.endAngle+expandAngle);
         if (step>0) {
-          x = this.x + Math.cos(textPlacementAngle)*this.radius*2/5;
-          y = this.y + Math.sin(textPlacementAngle)*this.radius*2/5;
+          tx = x + Math.cos(textPlacementAngle)*this.radius*2/5;
+          ty = y + Math.sin(textPlacementAngle)*this.radius*2/5;
         } else {
-          x = this.x + Math.cos(textPlacementAngle)*this.radius/3;
-          y = this.y + Math.sin(textPlacementAngle)*this.radius/3;
+          tx = x + Math.cos(textPlacementAngle)*this.radius/3;
+          ty = y + Math.sin(textPlacementAngle)*this.radius/3;
         }
         let textSize = this.hovered ? (smallScreen ? 12 : 18) : (smallScreen ? 10 : 16);
         let textRotation = textPlacementAngle > p.PI/2 ? textPlacementAngle-p.PI : textPlacementAngle;
         textRotation = textRotation > p.PI*3/4 ? textRotation-p.PI : textRotation;
-        drawLabels(this.label, x, y, textRotation, textSize);
+        drawLabels(this.label, tx, ty, textRotation, textSize);
       }
       getChildrenPies() {
         if (!this.childrenPies.length) {
@@ -444,10 +465,14 @@ class EmotionWheel {
       if (hoverIndex >= 0) {
         if (step===0) {
           selectIndex[step] = hoverIndex;
+          pieToAnimate = pies[hoverIndex];
+          animationTimer = animationLength;
           pies = pies[hoverIndex].getChildrenPies();
           step++;
         } else if (step === 1) {
           selectIndex[step] = hoverIndex;
+          pieToAnimate = pies[hoverIndex];
+          animationTimer = animationLength;
           pies = pies[hoverIndex].getChildrenPies();
           step++;
         } else if (step === 2){
@@ -462,30 +487,33 @@ class EmotionWheel {
       }
     }
 
-    function drawLabels(text, x, y, rotation, textSize, horizAlign = p.CENTER, vertAlign = p.CENTER ) {
-      p.textSize(textSize);
-      p.textAlign(horizAlign, vertAlign);
-      p.translate(x, y);
-      p.rotate(rotation);
-      p.fill(p.color('#000'));
-      p.noStroke();
-      p.text(text, 0, 0);
-      p.resetMatrix();
-    }
-
     p.draw = function() {
       p.clear();
       p.cursor(p.ARROW);
       hoverIndex = -1;
-      pies.forEach((pie, index) => {
-        let hovered = pie.update(p);
-        if (hovered) {
-          hoverIndex = index;
+      if (animationTimer > 0) {
+        var animationProgress = p.sin((1 - animationTimer/animationLength)*p.PI/2);
+        var scale = p.lerp(1, 2, animationProgress);
+        pieToAnimate.hovered = false;
+        pieToAnimate.draw(p, scale);
+        animationTimer--;
+      } else {
+        pies.forEach((pie, index) => {
+          let hovered = pie.update(p);
+          if (hovered) {
+            hoverIndex = index;
+          }
+        });
+        pies.forEach((pie) => {
+          pie.draw(p);
+        });
+      }
+      if (step > 0) {
+        drawLabels('<', padding.x, padding.y, 0, 40, p.LEFT, p.TOP);
+        if (mouseInRect(p.mouseX, p.mouseY, padding.x, padding.y, 40, 40)) {
+          p.cursor(p.HAND);
         }
-      });
-      pies.forEach((pie) => {
-        pie.draw(p);
-      });
+      }
     }
   };
 

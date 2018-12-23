@@ -44,7 +44,7 @@ const trial = new lab.flow.Sequence({
       '  </div>',
       messageHandlers: {
         'run': function() {
-          var canvas = $( '#affectbutton' );    
+          var canvas = $('#affectbutton');    
           canvas.affectbutton({
             style: affectButtonStyle,
           });

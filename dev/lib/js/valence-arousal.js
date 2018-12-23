@@ -108,7 +108,7 @@ class ValenceArousal {
     }
 
     p.mouseReleased = function() {
-      if (onChangeHandle) {
+      if (mouseInVASpace(p.mouseX, p.mouseY) && onChangeHandle) {
           onChangeHandle({
             x: Math.floor((position.x - canvasWidth/2)/(canvasWidth - padding.x*2 - 40)*200)/100,
             y: Math.floor((canvasWidth/2  -position.y)/(canvasWidth - padding.x*2 - 40)*200)/100,

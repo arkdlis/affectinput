@@ -46,10 +46,7 @@
   transition: fill 0.3s;
 }
 
-.six-emotions-item:not(.highlight):not(:hover) svg {
-  fill: rgb(192, 192, 192) !important;
-}
-.six-emotions-item:not(.highlight) {
+.six-emotions-item:not(.highlight):not(:hover) {
   opacity: 0.6;
 }
 
