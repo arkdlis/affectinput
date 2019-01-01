@@ -388,8 +388,8 @@ $.widget( 'ui.affectbutton', { // begin widget
       // 'base' dimensions of eyes and mouth
       bew = size/4;
       beh = size/12;
-      bmw = size/2;
-      bmh = size/6;
+      bmw = size/2*1.2;
+      bmh = size/6*1.2;
       
       // offset to follow mouse cursor
       cx = this._clip( (this.mouseX || width/2) - width/2, -width, width ) / 20;
@@ -425,17 +425,11 @@ $.widget( 'ui.affectbutton', { // begin widget
       // paint eye/brows
       for ( var k = 0; k < 2; k++ ) {
         this._eye( context, size, ex, ey, ew, eh );
-        context.save();
-        context.clip();
-        this._iris( context, size, cx, cy, ex, ey, ew, eh );
-        // this._pupil( context, size, cx, cy, ex, ey, ew, eh );
-        context.restore();
         this._brow( context, size, ex, ey, ew, eh, bs, bi, bo, k );
         ex = fx + size * (6/10);
       }
       
       // paint mouth
-      
       // draw shape, fill with teeth color, or shadow if enabled
       this._mouth( context, size, mx, my, mw, mu, ml );
       context.fillStyle = this.options.style.teeth.shadow || this.options.style.teeth.fill0;
@@ -502,34 +496,13 @@ $.widget( 'ui.affectbutton', { // begin widget
   },
   
   _eye: function( context, size, ex, ey, ew, eh ) {
+    var eyeHight = eh*3/5
+    eyeHight = eyeHight < 12 ? 12 : eyeHight;
+    eyeHight = eyeHight > 20 ? 20 : eyeHight;
     context.beginPath();
-    context.moveTo( ex, ey + eh/2 );
-    context.bezierCurveTo( ex, ey + eh/4, ex + ew/6, ey, ex + ew/2, ey );
-    context.bezierCurveTo( ex + ew - ew/6, ey, ex + ew, ey + eh/4, ex + ew, ey + eh/2 );
-    context.bezierCurveTo( ex + ew, ey + eh - eh/4, ex + ew - ew/6, ey + eh, ex + ew/2, ey + eh );
-    context.bezierCurveTo( ex + ew/6, ey + eh, ex, ey + eh - eh/4, ex, ey + eh/2 );
+    context.ellipse(ex+ew/2, ey+eyeHight/2, 12, eyeHight, 0, 0, 2 * Math.PI);
     context.closePath();
     this._style( context, size, 'eye' );
-    context.fill();
-    context.stroke();
-  },
-  
-  _iris: function( context, size, cx, cy, ex, ey, ew, eh ) {
-    context.beginPath();
-    context.arc( cx + ex + ew/2, cy + ey + eh/2, ew/4, 0, 2*Math.PI );
-    context.closePath();
-    this._style( context, size, 'iris'
-        , cx + ex + ew/2, cy + ey + eh/2, ew/10
-        , cx + ex + ew/2, cy + ey + eh/2, ew/4 ); 
-    context.fill();
-    context.stroke();
-  },
-  
-  _pupil: function( context, size, cx, cy, ex, ey, ew, eh ) {
-    context.beginPath();
-    context.arc( cx + ex + ew/2, cy + ey + eh/2, ew/10, 0, 2*Math.PI );
-    context.closePath();
-    this._style( context, size, 'pupil' );
     context.fill();
     context.stroke();
   },

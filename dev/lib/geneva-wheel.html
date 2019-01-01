@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Geneva Wheel</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.1/p5.min.js"></script>
+  <script src="js/geneva-wheel.js"></script>
+</head>
+<body>
+  
+  <div id='geneva-wheel'></div>
+  
+  <script>
+    // initializing widget
+    let genevaWheel = new GenevaWheel(2);
+    genevaWheel.onClick((value) => {
+      alert(value.label + " - " + value.value);
+    });
+    genevaWheel.init(window.document.getElementById('geneva-wheel'));
+  </script>
+</body>
+</html>
