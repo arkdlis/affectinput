@@ -1,3 +1,4 @@
+// config for geneva emotion wheel
 var genevaWheelDefaultConfig = [
   {
     name: "pride",

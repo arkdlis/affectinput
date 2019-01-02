@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Plutchik Wheel</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.1/p5.min.js"></script>
+  <script src="js/plutchik-wheel-2.js"></script>
+</head>
+<body>
+  
+  <div id='plutchik-wheel-2'></div>
+  <div id="slider" style="max-width: 200px; margin: 25px 50px"></div>
+  
+  <script>
+    // initializing widget
+    let plutchikWheel = new PlutchikWheel2();
+    plutchikWheel.onClick((value) => {
+      alert(value);
+    });
+    plutchikWheel.init(window.document.getElementById('plutchik-wheel-2'));
+
+  </script>
+</body>
+</html>

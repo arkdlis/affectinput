@@ -1,85 +1,85 @@
+// this is a customized clone of https://github.com/erikkemperman/jquery.ui.emojibutton.git
+
 (function( $, window, undefined ) { // begin plugin
 
-// Survey-optimized weights, due to Joost Broekens et. al.
-// For each of 9 archetypes: radius of influence, affect (x3), features (x8):
-var NUM_FEATURES = 8,
+// Survey-optimized weights, due to Joost Broekens but modified (one more feature for brows)
+// For each of 9 archetypes: radius of influence, affect (x3), features (x9):
+var NUM_FEATURES = 9,
   NUM_ARCHETYPES = 9,
   ARCHETYPES = [
-    1.7,       0,   0,   0,        0,    0,    0,    0,    0, -0.5,    0,    1,
-    1.3,      -1,  -1,  -1,       -1,   -1,   -1,    1,   -1,   -1,   -1,    1,
-    1.3,      -1,  -1,   1,     -0.3,    0,    0,   -1,   -1, -0.5, -0.5,    1,
-    1.3,      -1,   1,  -1,        1,    1, -0.8,  0.8,    0,    0, -0.3,  0.5,
-    1.3,      -1,   1,   1,      0.5,    0,  0.8, -0.8,    1,    1,   -1,    1,
-    1.3,       1,  -1,  -1,       -1,   -1,    0,    0,    0,   -1,  0.7,    1,
-    1.3,       1,  -1,   1,     -0.5,    0,    0,    0,    0, -0.5,    1,    1,
-    1.3,       1,   1,  -1,      0.3,    1,    0,    0, -1.5,  0.7,  0.5, -0.5,
-    1.3,       1,   1,   1,      0.5,  0.5,    0,    0,    1,  0.5,    1,  0.5
+    1.7,       0,   0,   0,        0, -0.5, 0.6,    0,    0,    0,-0.95,  0.1,    1, // 1- neutral
+    1.3,      -1,  -1,  -1,       -1,    1,  -1,   -1,    1,   -1,   -1,   -1,    1, // 2 - sad 
+    1.3,      -1,  -1,   1,     -0.3,  0.5,   0,    0,   -1,   -1, -0.5, -0.5,    1, // 3 - disgust 
+    1.3,      -1,   1,  -1,        1,  0.7,   2, -0.8,  0.8,    0,    0, -0.3,  0.5, // 4 - fear 
+    1.3,      -1,   1,   1,      0.5,    1,   1,  0.8, -0.8,    1,    1,   -1,    1, // 5 - anger
+    1.3,       1,  -1,  -1,       -1, -0.3,  -1,    0,    0,    0,   -1,  0.7,    1, // 6 - relaxed 
+    1.3,       1,  -1,   1,     -0.5, -0.3,   0,    0,    0,    0, -0.5,    1,    1, // 7 - content 
+    1.3,       1,   1,  -1,      0.3,   -1,   3,    0,    0, -1.5,  0.7,  0.5, -0.5, // 8 - suprise 
+    1.3,       1,   1,   1,      0.5,   -1,   1,    0,    0,    1,  0.5,    1,  0.5, // 9 - happy 
   ],
-
-  // ---- style defaults match the Java implementation: ----
+  
+  // ---- custom style defaults: ----
   STYLE_DEFAULTS = {
-    ground: {
-      fill0:          '#edfeff',
-      fill1:          '#cbdcff',
-      stroke:         '#45609c',
-      width:          1
+    "ground": {
+      "fill0":         "#FFF",
+      "fill1":         "#FFF",
+      "stroke":        "#FFF",
+      "width":         0
     },
     
-    face: {
-      fill0:          '#ffc800',
-      fill1:          '',
-      stroke:         '#f0c030',
-      width:          1,
-      shadow:         '#301020',
-      shadowX:        0,
-      shadowY:        0
+    "face": {
+      "fill0":         "#FBDF80",
+      "fill1":         "#FBDF80",
+      "stroke":        "#FBDF80",
+      "width":         1,
+      "shadow":        "#888",
+      "shadowX":       1,
+      "shadowY":       2
     },
     
-    brow: {
-      stroke:         '#000000',
-      width:          3,
-      shadow:         '#c0a060',
-      shadowX:        0,
-      shadowY:        0
+    "brow": {
+      "stroke":        "#2A3240",
+      "width":         2,
+      "shadow":        "#FBDF80",
+      "shadowX":       0,
+      "shadowY":       0
     },
     
-    eye: {
-      fill0:          '#ffffff',
-      stroke:         '#ffffff',
-      width:          0.1
+    "eye": {
+      "fill0":         "#2A3240",
+      "stroke":        "#2A3240",
+      "width":         0.5
     },
     
-    iris: {
-      fill0:          '#00c8c8',
-      fill1:          '',
-      stroke:         '#00c8c8',
-      width:          0.5
+    "iris": {
+      "fill0":         "#2A3240",
+      "fill1":         "#2A3240",
+      "stroke":        "#2A3240",
+      "width":         0.5
     },
     
-    pupil: {
-      fill0:          '#000000',
-      stroke:         '#00ffff',
-      width:          0.25
+    "pupil": {
+      "fill0":         "#2A3240"
     },
     
-    mouth: {
-      fill0:          '#ffc800',
-      fill1:          '',
-      stroke:         '#c86400',
-      width:          1
+    "mouth": {
+      "fill0":         "#2A3240",
+      "fill1":         "#2A3240",
+      "stroke":        "#2A3240",
+      "width":         2
     },
     
-    teeth: {
-      fill0:          '#ffffff',
-      shadow:         '',
-      stroke:         '#ffc800',
-      width:          1,
-      grid:           [0.1, 0.25, 0.5, 0.75, 0.9]
+    "teeth": {
+      "fill0":         "#fff",
+      "shadow":        "#fff",
+      "stroke":        "#fff",
+      "width":         0.5,
+      "grid":          [0.1, 0.25, 0.5, 0.75, 0.9]
     }
   };
 
 
-$.widget( 'ui.affectbutton', { // begin widget
+$.widget( 'ui.emojibutton', { // begin widget
   
   // ---- Declare user-configurable options with their default values: ----
   options: {
@@ -102,7 +102,7 @@ $.widget( 'ui.affectbutton', { // begin widget
     lineCap:          'round',
     scaleMin:         10,
     scaleMax:         370, // max-min=360 is highly composite
-    padding:          3,
+    padding:          10,
     
     style:            STYLE_DEFAULTS
     
@@ -156,7 +156,7 @@ $.widget( 'ui.affectbutton', { // begin widget
         element.off( key );
         key = 'v' + key;
       }
-      element.on( key + '.ui-affectbutton', callback );
+      element.on( key + '.ui-emojibutton', callback );
     } );
     
   },
@@ -172,7 +172,7 @@ $.widget( 'ui.affectbutton', { // begin widget
   },
   
   destroy: function() {
-    this.element.off( '.ui-affectbutton' );
+    this.element.off( '.ui-emojibutton' );
     window.clearTimeout( this.timer );
   },
   
@@ -406,26 +406,27 @@ $.widget( 'ui.affectbutton', { // begin widget
       ey = fy + size/3 - eh/2;
       
       // brow (relative to ex,ey)
-      bs = (beh * (this.features[1] + 1)/2) + beh/2 + 1;
-      bo = (beh * -this.features[2])/2;
-      bi = (beh * -this.features[3])/2;
+      bc = (beh * this.features[1]);
+      bs = (beh * (this.features[2] + 1)/2) + beh/2 + 1;
+      bo = (beh * -this.features[3])/2;
+      bi = (beh * -this.features[4])/2;
       
       // mouth
-      mw = bmw * (this.features[4] + 1)/6 + bmw/2;
-      mh = bmh * (this.features[5] + 1)/3;
-      mt = (bmh * this.features[6])/2;
+      mw = bmw * (this.features[5] + 1)/6 + bmw/2;
+      mh = bmh * (this.features[6] + 1)/3;
+      mt = (bmh * this.features[7])/2;
       mx = fx + size/2 - mw/2;
       my = fy + size*(2/3) - mt;
       mu = mh - mt;
       ml = mh + mt;
       
       // teeth
-      tv = bmh * (this.features[7] - 1)/3;
+      tv = bmh * (this.features[8] - 1)/3;
       
       // paint eye/brows
       for ( var k = 0; k < 2; k++ ) {
         this._eye( context, size, ex, ey, ew, eh );
-        this._brow( context, size, ex, ey, ew, eh, bs, bi, bo, k );
+        this._brow( context, size, ex, ey, ew, eh, bc, bs, bi, bo, k );
         ex = fx + size * (6/10);
       }
       
@@ -507,11 +508,21 @@ $.widget( 'ui.affectbutton', { // begin widget
     context.stroke();
   },
   
-  _brow: function( context, size, ex, ey, ew, eh, bs, bi, bo, k ) {
+  _brow: function( context, size, ex, ey, ew, eh, bc, bs, bi, bo, k ) {
+    let x1 = ex;
+    let y1 = ey + eh/2 - bs + (k ? bi : bo) - (bi-bo)/8;
+    let x2 = ex + ew;
+    let y2 = ey + eh/2 - bs + (k ? bo : bi);
+    let xm = (x1 + x2) / 2;
+    let ym = Math.min(y1, y2) + bc;
     context.beginPath();
-    context.moveTo( ex, ey + eh/2 - bs + (k ? bi : bo) - (bi-bo)/8 );
-    context.lineTo( ex + ew, ey + eh/2 - bs + (k ? bo : bi) );
-    context.closePath();
+    context.moveTo( x1, y1 );
+    context.bezierCurveTo( 
+      k ? xm : x1, k ? ym : y1,
+      k ? x2 : xm, k ? y2 : ym,
+      x2, y2
+    );
+    // context.closePath();
     this._shadow( context, size, 'brow', true );
     this._style( context, size, 'brow' );
     context.stroke();
