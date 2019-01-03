@@ -3,30 +3,31 @@ NodeList.prototype.forEach = function (callback) {
 }
 
 var sixEmotionsDefaultConfig = {
+  assetsDirectory: "assets/",
   items: [
     {
       value: "happy",
-      src: "assets/m_happy.svg",
+      src: "m_happy.svg",
     },
     {
       value: "suprise",
-      src: "assets/m_suprise.svg",
+      src: "m_suprise.svg",
     },
     {
       value: "fear",
-      src: "assets/m_fear.svg",
+      src: "m_fear.svg",
     },
     {
       value: "anger",
-      src: "assets/m_anger.svg",
+      src: "m_anger.svg",
     },
     {
       value: "disgust",
-      src: "assets/m_disgust.svg",
+      src: "m_disgust.svg",
     },
     {
       value: "sad",
-      src: "assets/m_sad.svg",
+      src: "m_sad.svg",
     }
   ]
 };
@@ -34,6 +35,10 @@ var sixEmotionsDefaultConfig = {
 class SixEmotions {
   constructor(config) {
     this.config = config || sixEmotionsDefaultConfig;
+  }
+
+  setAssetsDirectory(directory) {
+    this.config.assetsDirectory = directory;
   }
 
   create(root) {
@@ -52,7 +57,7 @@ class SixEmotions {
   }
 
   appendSvgNode(container, item) {
-    jQuery.get(item.src, function (data) {
+    jQuery.get(this.config.assetsDirectory + item.src, function (data) {
       var itemDiv = $("<div>", { class: "six-emotions-item" })
       var svg = jQuery(data).find('svg');
       svg = svg.attr('id', `emotion-${item.value}`);

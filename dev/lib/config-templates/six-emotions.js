@@ -1,29 +1,30 @@
 // config for emotion scale
 var sixEmotionsDefaultConfig = {
+  assetsDirectory: "assets/",
   items: [
     {
       value: "happy",
-      src: "assets/m_happy.svg",
+      src: "m_happy.svg",
     },
     {
       value: "suprise",
-      src: "assets/m_suprise.svg",
+      src: "m_suprise.svg",
     },
     {
       value: "fear",
-      src: "assets/m_fear.svg",
+      src: "m_fear.svg",
     },
     {
       value: "anger",
-      src: "assets/m_anger.svg",
+      src: "m_anger.svg",
     },
     {
       value: "disgust",
-      src: "assets/m_disgust.svg",
+      src: "m_disgust.svg",
     },
     {
       value: "sad",
-      src: "assets/m_sad.svg",
+      src: "m_sad.svg",
     }
   ]
 };

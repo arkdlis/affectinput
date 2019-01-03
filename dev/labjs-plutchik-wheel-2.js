@@ -36,8 +36,7 @@ const trial = new lab.flow.Sequence({
       timeout: 2000,
     }),
     new lab.html.Screen({
-      content: '<div id="emotion-input"></div>' +
-               '<div id="slider" class="mx-auto" style="max-width: 200px; margin: 25px 50px"></div>',
+      content: '<div id="emotion-input"></div>',
       messageHandlers: {
         'run': function() {
           // initialize widget

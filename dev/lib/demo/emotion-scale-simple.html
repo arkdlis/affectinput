@@ -6,26 +6,24 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Emotion Scale</title>
 
-  <link rel="stylesheet" type="text/css" href="css/emotion-scale.css">
+  <link rel="stylesheet" type="text/css" href="../css/emotion-scale.css">
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="js/emotion-scale.js"></script>
+  <script src="../../vendors/jquery/jquery.js"></script>
+  <script src="../js/emotion-scale.js"></script>
 </head>
 <body>
 
-  <div id="emotion-scale" class="emotion-scale center horizontal motion"></div>
+  <div id="emotion-scale" class="emotion-scale center"></div>
 
   <script>
     let emotionScale = new EmotionScale();
 
     window.addEventListener('load', function () {
+      emotionScale.setAssetsDirectory('../assets/');
       emotionScale.init(document.getElementById('emotion-scale'));
-      emotionScale.onClick((value) => {
+      emotionScale.onChange((value) => {
         window.alert(value);
       });
-      window.addEventListener("devicemotion", (event) => { 
-        handleMotion(event, emotionScale);
-      }, true);
     });
   </script>
 

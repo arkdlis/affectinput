@@ -41,7 +41,7 @@ const trial = new lab.flow.Sequence({
         'run': function() {
           // initialize widget
           let sixEmotions = new SixEmotions();
-
+          sixEmotions.setAssetsDirectory('lib/assets/');
           sixEmotions.onChange((result) => {
             experiment.datastore.set({
               'imageUrl': this.parent.options.parameters.imageUrl,
