@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Emoji Button | jsPsych</title>
+
+    <!-- jQuery -->
+    <link rel="stylesheet" href="../../vendors/jquery/jquery.mobile.css" />
+    <script src="../../vendors/jquery/jquery.js"></script>
+    <script src="../../vendors/jquery/jquery.mobile.js"></script>
+
+    <!-- jsPsych -->
+    <script src="../../vendors/jsPsych/jspsych.js"></script>
+    <script src="../../vendors/jsPsych/plugins/jspsych-html-button-response.js"></script>
+    <script src="../../vendors/jsPsych/plugins/jspsych-html-keyboard-response.js"></script>
+    <script src="../../vendors/jsPsych/plugins/jspsych-image-keyboard-response.js"></script>
+    <link href="../../vendors/jsPsych/css/jspsych.css" rel="stylesheet" type="text/css"></link>
+
+    <!-- Include the affectbutton widget -->
+    <script src="../../lib/js/emoji.affectbutton.js"></script>
+
+    <!-- widget plugin -->
+    <script src="../../jspsych-plugins/jspsych-emoji-button.js"></script>
+
+    <!-- additional styles to improve responsivenes on mobile devices -->
+    <style>
+      .jspsych-content-wrapper {
+        height: 100vh;
+      }
+      #jspsych-image-keyboard-response-stimulus {
+        max-width: 100%;
+        height: auto;
+      }
+      #emojibutton {
+        width: 240px;
+        height: 240px;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+      }
+    </style>
+  </head>
+  <body>
+  </body>
+  <script>
+
+    /* create timeline */
+    var timeline = [];
+
+    /* define welcome message trial */
+    var welcome = {
+      type: "html-button-response",
+      choices: ['Dalej'],
+      stimulus: "Witaj!",
+      prompt: "<p>Kliknij dalej, by kontynuować.</p>"
+    };
+    timeline.push(welcome);
+
+    /* define instructions trial */
+    var instructions = {
+      type: "html-button-response",
+      choices: ['Dalej'],
+      stimulus: '<p>Zobaczysz teraz kilka różnych obrazków jeden po drugim.</p>' +
+                '<p>Po każdym z nich zostaniesz poproszony o określenie swojej emocji.</p>',
+      prompt: "<p>Kliknij dalej, by kontynuować.</p>"
+    };
+    timeline.push(instructions);
+
+
+    /* test trials */
+
+    var test_stimuli = [
+      { imageUrl: '../../img/Angry face 2.jpg', value: 1 },
+      { imageUrl: '../../img/Animal carcass 3.jpg', value: 2 },
+      { imageUrl: '../../img/Baby 3.jpg', value: 3 },
+      { imageUrl: '../../img/Car race 1.jpg', value: 4 },
+      { imageUrl: '../../img/Cemetery 3.jpg', value: 5 },
+      { imageUrl: '../../img/Cheerleader 1.jpg', value: 6 },
+      { imageUrl: '../../img/Cockroach 1.jpg', value: 7 },
+      { imageUrl: '../../img/Dog 6.jpg', value: 8 },
+    ];
+
+    var fixation = {
+      type: 'html-keyboard-response',
+      stimulus: '<div style="font-size:60px;">+</div>',
+      choices: jsPsych.NO_KEYS,
+      trial_duration: function(){
+        return jsPsych.randomization.sampleWithoutReplacement([250, 500, 750, 1000, 1250, 1500, 1750, 2000], 1)[0];
+      },
+      data: {test_part: 'fixation'}
+    }
+
+    var stimuli = {
+      type: "image-keyboard-response",
+      stimulus: jsPsych.timelineVariable('imageUrl'),
+      choices: jsPsych.NO_KEYS,
+      trial_duration: function(){
+        return jsPsych.randomization.sampleWithoutReplacement([250, 500, 750, 1000, 1250, 1500, 1750, 2000], 1)[0];
+      },
+      data: jsPsych.timelineVariable('data'),
+    }
+
+    var affect = {
+      type: "emoji-button",
+      data: jsPsych.timelineVariable('data'),
+    }
+
+    var test_procedure = {
+      timeline: [fixation, stimuli, affect],
+      timeline_variables: test_stimuli,
+      repetitions: 1,
+      randomize_order: true
+    }
+    timeline.push(test_procedure);
+
+    /* start the experiment */
+    jsPsych.init({
+      timeline: timeline,
+      on_finish: function() {
+        jsPsych.data.displayData();
+      }
+    });
+  </script>
+</html>
