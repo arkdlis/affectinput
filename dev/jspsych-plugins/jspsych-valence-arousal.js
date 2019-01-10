@@ -24,8 +24,8 @@ jsPsych.plugins["valence-arousal"] = (function() {
     valenceArousal.onChange((result) => {
       // end trial
       jsPsych.finishTrial({
-        valence: result.x,
-        arousal: result.y
+        valence: result.valence,
+        arousal: result.arousal
       });
     });
     valenceArousal.init(window.document.getElementById('emotion-input'));

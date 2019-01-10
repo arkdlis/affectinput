@@ -48,8 +48,8 @@ const trial = new lab.flow.Sequence({
             let arousalValue = 0;
 
             valenceArousal.onChange((value) => {
-              valenceValue = value.x;
-              arousalValue = value.y;
+              valenceValue = value.valence;
+              arousalValue = value.arousal;
             });
 
             valenceArousal.init(window.document.getElementById('valence-arousal'));

@@ -18,7 +18,7 @@
     let valenceArousal = new ValenceArousal();
 
     valenceArousal.onChange((value) => {
-      window.alert(`x: ${value.x}, y: ${value.y}`);
+      window.alert(`valence: ${value.valence}, arousal: ${value.arousal}`);
     });
 
     valenceArousal.init(window.document.getElementById('valence-arousal'));
