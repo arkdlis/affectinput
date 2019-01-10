@@ -115,7 +115,6 @@ elem.addEventListener('click', () => {
 });
 
 experiment.on('end', () => {
-  // closeFullscreen();
   experiment.datastore.download();
 });
 
